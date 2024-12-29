@@ -7,7 +7,7 @@
   <source src="<?php echo base_url() ?>assets/menang.mp3" type="audio/mpeg">
 </audio>
 <div class="container-fluid page" id="undian">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12 text-center" style="margin-top:20px;"> <img src="<?php echo base_url() ?>assets/img/<?php echo $pengaturan->logo ?>" style="max-height: 70px;" />
       <div class="row">
         <div class="col-md-6 col-xs-12 offset-md-3">
@@ -15,9 +15,17 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="row">
-    <div class="col-md-3 mt-5">
+    <div class="col-md-5 mt-5">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 offset-md-3">
+          <center>
+            <img src="<?php echo base_url() ?>assets/img/<?php echo $pengaturan->logo ?>" style="max-height: 70px;" />
+          </center>
+          <h4 align="center" id="judul-undian"><?php echo $pengaturan->nama_undian ?></h4>
+        </div>
+      </div>
       <div class="kolom-list-rewards">
         <h5 class="title-list">Reward :</h5>
         <input type="hidden" id="baseurl" value="@ViewBag.BaseUrl" />
@@ -30,23 +38,31 @@
           <?php } ?>
         </select>
         <div class="text-center">
-          <img id="preview-rewards" class="img-fluid" />
+          <img id="preview-rewards" class="img-fluid" style="max-width: 60%;" />
           <h5 class="title-list">Hadiah Cabang:</h5>
           <ul id="cabang-rewards-list" class="list-unstyled mt-2"></ul>
         </div>
       </div>
       <a href="javascript:void(0)" class="btn btn-sm btn-block btn-light pengaturan mb-5" style="margin-bottom: 20px;"><i class="fa fa-"></i> Pengaturan Tambahan</a>
     </div>
-    <div class="col-md-6 text-center undian">
+    <div class="col-md-7 text-center undian">
       <h1 style="margin-top:30px;" class="nomor-undian acak-name" id="nomor">0000000</h1>
       <div style="margin-top:30px;">
-        <button type="button" class="btn-acak mb-3">MULAI ACAK</button>
+        <button type="button" class="btn-acak">MULAI ACAK</button>
         <br />
       </div>
+      <div class="data" style="padding:10px; margin-bottom:20px;">
+        <h2>
+          <!--<h4 id="keterangan">No. Transaksi</h4>-->
+        </h2>
+        <h1 id="nama"><strong>[ _ _ _ _ _ _ _ _ _ ]</strong></h1>
+        <h4 id="alamat">[ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ]</h4>
+      </div>
+      <button type="button" class="btn btn-lg btn-warning rounded btn-block mb-2" id="btn-save-result">SIMPAN</button>
 
-      <div class="kolom-list">
+      <div class="kolom-list" >
         <h5 class="title-list">Selamat Kepada :</h5>
-        <div class="kolom">
+        <div class="kolom" >
           <table class="table" style="color: white;">
             <tbody>
               <?php
@@ -64,21 +80,10 @@
           </table>
         </div>
       </div>
-
     </div>
-    <div class="col-md-3 mt-4">
-      <div class="data" style="padding:10px; margin-bottom:20px;">
-        <h2>
-          <!--<h4 id="keterangan">No. Transaksi</h4>-->
-        </h2>
-        <center>
-          <h1 id="nama"><strong>[ _ _ _ _ _ _ _ _ _ ]</strong></h1>
-          <h4 id="alamat">[ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ]</h4>
-        </center>
-      </div>
-      <button type="button" class="btn btn-lg btn-warning rounded btn-block" id="btn-save-result">SIMPAN</button>
-
-    </div>
+    <!-- <div class="col-md-3 mt-4">
+      
+    </div> -->
   </div>
   <div class="modal" id="ModalPengaturan" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -220,11 +225,11 @@
         success: function(response) {
           if (typeof response === 'string') {
             try {
-              response = JSON.parse(response); // Parse string ke objek jika perlu
+                response = JSON.parse(response); // Parse string ke objek jika perlu
             } catch (e) {
-              console.error('Error parsing response:', e);
+                console.error('Error parsing response:', e);
             }
-          }
+        }
           // Memeriksa apakah response adalah objek JavaScript
           console.log('Response:', response); // Pastikan response diterima sebagai objek
 
@@ -255,30 +260,28 @@
     });
 
 
-    // Fungsi untuk mengambil peserta berdasarkan cabang yang dipilih
-    function getPesertaByCabang(cabangArray) {
+  // Fungsi untuk mengambil peserta berdasarkan cabang yang dipilih
+  function getPesertaByCabang(cabangArray) {
       $.ajax({
-        url: base_url + "home/get_peserta_by_cabang", // Endpoint untuk mendapatkan peserta berdasarkan cabang
-        type: 'POST',
-        data: {
-          cabang: cabangArray
-        }, // Kirim cabang yang dipilih
-        success: function(data) {
-          var obj = $.parseJSON(data);
-          arrayPesertaBaru = []; // Reset array peserta baru
-          $.each(obj, function(index, value) {
-            arrayPesertaBaru.push(value); // Tambahkan peserta ke array
-          });
-          console.log('Peserta Baru BY CABANG:', arrayPesertaBaru);
+          url: base_url + "home/get_peserta_by_cabang",  // Endpoint untuk mendapatkan peserta berdasarkan cabang
+          type: 'POST',
+          data: { cabang: cabangArray },  // Kirim cabang yang dipilih
+          success: function(data) {
+              var obj = $.parseJSON(data);
+              arrayPesertaBaru = []; // Reset array peserta baru
+              $.each(obj, function(index, value) {
+                  arrayPesertaBaru.push(value);  // Tambahkan peserta ke array
+              });
+              console.log('Peserta Baru BY:', arrayPesertaBaru);
 
-          $(".btn-start").removeAttr('disabled');
-          $(".btn-stop").attr('disabled', 'disabled');
-        },
-        error: function(xhr, status, error) {
-          console.error('Error fetching peserta:', error);
-        }
+              $(".btn-start").removeAttr('disabled');
+              $(".btn-stop").attr('disabled', 'disabled');
+          },
+          error: function(xhr, status, error) {
+              console.error('Error fetching peserta:', error);
+          }
       });
-    }
+  }
 
     var url_id = $(".rewards-options").val();
 

@@ -183,6 +183,10 @@ class Home extends MX_Controller {
 		$this->db->truncate('ta_peserta');		
 		$this->db->query("ALTER TABLE ta_peserta AUTO_INCREMENT = 1");
 		
+		// Set kolom 'cabang' di tabel ta_hadiah menjadi NULL
+		$this->db->set('cabang', NULL);
+		$this->db->update('ta_hadiah');
+		
 		$result = array(
 			'status' => "reload",
 			'msg' => ""
